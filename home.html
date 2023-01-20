@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="img/favicon.png" type="image/x-icon" />
+    <link rel="stylesheet" href="css/stilos.css" />
+    <link rel="stylesheet" href="css/navbar.css" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
+    />
+    <title>Movies</title>
+  </head>
+
+  <body>
+    <header class="header">
+      <div class="container">
+        <div class="overlay" id="overlay"></div>
+        <a href="#" class="logo">
+          <img src="img/logo2.png" alt="Film logo" />
+        </a>
+        <div class="header-actions">
+          <button class="search-btn">
+            <ion-icon name="search-outline"></ion-icon>
+          </button>
+          <div class="lang-wrapper">
+            <label for="language">
+              <ion-icon name="globe-outline"></ion-icon>
+            </label>
+            <select name="language" id="language">
+              <option value="en">EN</option>
+              <option value="es">ES</option>
+            </select>
+          </div>
+          <button class="btn btn-primary">Sign in</button>
+        </div>
+        <button class="menu-open-btn" id="menu-open">
+          <ion-icon name="reorder-three-outline"></ion-icon>
+        </button>
+        <nav class="navbar" id="data-navbar">
+          <div class="navbar-top">
+            <a href="./index.html" class="logo">
+              <img src="img/logo2.png" alt="Film logo" />
+            </a>
+            <button class="menu-close-btn" id="menu-close">
+              <ion-icon name="close-outline"></ion-icon>
+            </button>
+          </div>
+          <ul class="navbar-list">
+            <li>
+              <a href="./index.html" class="navbar-link">Home</a>
+            </li>
+            <li>
+              <a href="#" class="navbar-link">Movie</a>
+            </li>
+            <li>
+              <a href="#" class="navbar-link">Tv Show</a>
+            </li>
+            <li>
+              <a href="#" class="navbar-link">Web Series</a>
+            </li>
+            <li>
+              <a href="#" class="navbar-link">Pricing</a>
+            </li>
+          </ul>
+          <ul class="navbar-social-list">
+            <li>
+              <a href="#" class="navbar-social-link">
+                <ion-icon name="logo-twitter"></ion-icon>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="navbar-social-link">
+                <ion-icon name="logo-facebook"></ion-icon>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="navbar-social-link">
+                <ion-icon name="logo-youtube"></ion-icon>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+    <div class="pelicula-principal">
+      <div class="contenedor">
+        <h3 class="titulo">Interestellar</h3>
+        <p class="descripcion">
+          Narra las aventuras de un grupo de exploradores que hacen uso de un
+          agujero de gusano recientemente descubierto para superar las
+          limitaciones de los viajes espaciales tripulados y vencer las inmensas
+          distancias que tiene un viaje interestelar.
+        </p>
+        <button role="button" class="boton">
+          <ion-icon class="info" name="play-circle-outline" size="large"></ion-icon> Reproducir
+        </button>
+        <button role="button" class="boton">
+          <ion-icon class="info" name="information-circle-outline" size="large"></ion-icon> Más información
+        </button>
+      </div>
+    </div>
+    <div class="content"></div>
+    <script src="js/genres.js"></script>
+    <!-- <script src="js/Film.js"></script> -->
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/toastify-js"
+    ></script>
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"
+    ></script>
+    <script src="js/index.js"></script>
+  </body>
+</html>
