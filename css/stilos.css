@@ -14,8 +14,6 @@ body {
 }
 .wrapper {
 	display: inline-flex;
-    /* flex: 2;
-    flex-direction: row; */
     align-items: center;
     margin: 8px;
     padding: 13px;
@@ -35,14 +33,12 @@ body {
 	border-radius: 3px;
 	box-shadow: 0 0 10px #2a264f;
   }
-  
+
   .card .img1 {
 	height: 450px;
     width: 320px;
 	transition: all 0.5s ease-in-out;
   }
-  
-  
   
   .card .title {
 	width: 100%;
@@ -60,7 +56,7 @@ body {
   
   .card .text {
 	position: absolute;
-	bottom: 80px;
+	bottom: 150px;
 	height: 120px;
 	padding: 15px 10px;
 	text-align: center;
@@ -73,9 +69,10 @@ body {
   }
   
   .card .category {
+	display: flex;
 	position: absolute;
 	left: 10px;
-	top: 140px;
+	top: 90px;
 	padding: 3px 10px;
 	font-size: 15px;
 	font-weight: 700;
@@ -90,7 +87,7 @@ body {
   .card .views {
 	position: absolute;
 	left: 10px;
-	top: 175px;
+	top: 120px;
 	padding: 3px 10px;
 	font-size: 15px;
 	font-weight: 700;
@@ -114,13 +111,25 @@ body {
   }
   
   .card:hover .views,
+  .card:hover .category,
   .card:hover .category {
 	transform: translate(0);
   }
+  .hydrated {
+    padding-right: 5px;
+}
+.clickImagen{
+	position: absolute;
+	font-size: 1px;
+	width: 320px;
+    height: 450px;
+    margin: auto;
+    top: 0px;
+}
 
 
 
-
+/* 
   nav {
 	position: sticky;
 	top: 0;
@@ -187,3 +196,4 @@ body {
 	margin: auto;
     margin-right: inherit;
   }
+ */

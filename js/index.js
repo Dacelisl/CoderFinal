@@ -1,12 +1,10 @@
+const key = "23313cb0700ea79bd480389020e9c60b";
+let lang = "es";
 const contenedorCards = document.querySelector(".content");
+const contenedorPrincipal = document.querySelector(".pelicula-principal");
 
 const cards = (array) => {
   const arrayReducido = array.reduce((acc, element) => {
-    let genero;
-    console.log(genre.find(gen => gen.id = element.genre_ids));
-  
-    
-
     return (
       acc +
       `<div class="wrapper">
@@ -14,101 +12,125 @@ const cards = (array) => {
         <img src="https://image.tmdb.org/t/p/original${element.poster_path}" class="img1" />
         <h1 class="title">${element.title}</h1>
         <p class="text">${element.overview}</p>
-        <p class="category">${element.genre_ids}</p>
+        <p class="clickImagen">${element.id}</p>
+        <p class="category"><ion-icon name="star"></ion-icon>IMDb ${element.vote_average}</p>
         <p class="views">${element.release_date}</p>
       </div>
-    </div>            
-        `
+    </div> `
     );
   }, "");
-  console.log("primero");
   contenedorCards.innerHTML = arrayReducido;
 };
 
-const options = {
-  method: "GET",
-  headers: {
-    "X-RapidAPI-Key": "23313cb0700ea79bd480389020e9c60b",
-    "X-RapidAPI-Host": "movie-details1.p.rapidapi.com",
-  },
-};
+function selectLang() {
+  let option2 = document.querySelector("#language").selectedIndex;
+  if (option2 == 1) {
+    lang = "es";
+    textEsp();
+  } else {
+    lang = "en";
+    textEng();
+  }
+}
 
+function textEng() {
+  document.querySelector("#inicio").innerText = "Home";
+  document.querySelector("#tendencia").innerText = "Trending";
+  document.querySelector("#peliculas").innerText = "Movies";
+  document.querySelector("#series").innerText = "Web Series";
+  document.querySelector("#comunidad").innerText = "Community";
+  document.querySelector(".titulo").innerText = "Fury";
+  document.querySelector(".descripcion").innerText =
+    "In the last months of World War II, as the Allies make their final push in the European theatre, a battle-hardened U.S. Army sergeant named 'Wardaddy' commands a Sherman tank called 'Fury' and its five-man crew on a deadly mission behind enemy lines. Outnumbered and outgunned, Wardaddy and his men face overwhelming odds in their heroic attempts to strike at the heart of Nazi Germany.";
+  document.querySelector(
+    "#play"
+  ).innerHTML = `<ion-icon class="info" name="play-circle-outline" size="large"></ion-icon> Watch Now`;
+  document.querySelector(
+    "#info"
+  ).innerHTML = `<ion-icon class="info" name="information-circle-outline" size="large"></ion-icon> More Details`;
+}
+function textEsp() {
+  document.querySelector("#inicio").innerText = "Inicio";
+  document.querySelector("#tendencia").innerText = "tendencia";
+  document.querySelector("#peliculas").innerText = "peliculas";
+  document.querySelector("#series").innerText = "series";
+  document.querySelector("#comunidad").innerText = "comunidad";
+  document.querySelector(".titulo").innerText = "Corazones de acero";
+  document.querySelector(".descripcion").innerText =
+    "Abril de 1945. Al mando del veterano sargento Wardaddy, una brigada de cinco soldados americanos a bordo de un tanque -el Fury- ha de luchar contra un ejército nazi al borde de la desesperación, pues los alemanes saben que su derrota estaba ya cantada por aquel entonces.";
+  document.querySelector(
+    "#play"
+  ).innerHTML = `<ion-icon class="info" name="play-circle-outline" size="large"></ion-icon> Reproducir`;
+  document.querySelector(
+    "#info"
+  ).innerHTML = `<ion-icon class="info" name="information-circle-outline" size="large"></ion-icon>  Más información`;
+}
+
+/* llenar cuadricula */
+/* fetch(`https://api.themoviedb.org/3/trending/movie/week?api_key=${key}&language=${lang}`) */
 fetch(
-  "https://api.themoviedb.org/3/trending/movie/day?api_key=23313cb0700ea79bd480389020e9c60b&language=es"
+  `https://api.themoviedb.org/3/discover/movie?api_key=${key}&language=${lang}&primary_release_date.gte=2014-09-15&primary_release_date.lte=2014-10-22&include_adult=true&include_video=false&page=1`
 )
   .then((response) => response.json())
   .then((response) => {
     cards(response.results);
-    console.log(response.results);
   })
   .catch((err) => console.error(err));
 
+/* Seleccion Individual */
+function busqueda(id) {
+  const options = {
+    method: "GET",
+    headers: {
+      "X-RapidAPI-Key": "725f7c89a8msh38cea6e80ba5430p1cc6f3jsn08bcad0371ed",
+      "X-RapidAPI-Host": "streaming-availability.p.rapidapi.com",
+    },
+  };
+  fetch(
+    `https://streaming-availability.p.rapidapi.com/get/basic?country=us&tmdb_id=movie/${id}&output_language=${lang}`,
+    options
+  )
+    .then((response) => response.json())
+    .then((response) => imagenClick(response))
+    .catch((err) => console.error(err));
+}
 
+function imagenClick(element) {
+  const url = "https://image.tmdb.org/t/p/w780";
+  let play = "Reproducir";
+  let info = "Más información";
+  contenedorPrincipal.setAttribute(
+    "style",
+    `background: linear-gradient(rgba(0, 0, 0, .50) 0%, rgba(0,0,0,.50) 100%), url(${
+      url + element.backdropPath
+    })`
+  );
+  contenedorPrincipal.style.backgroundSize = "cover";
+  contenedorPrincipal.style.backgroundPosition = "initial";
+  
+  if ((lang == 'en')) {
+    play = "Watch Now";
+    info = "More Details";
+  } 
+  contenedorPrincipal.innerHTML = `<div class="contenedor">
+    <h3 class="titulo">${element.title}</h3>
+    <p class="descripcion">${element.overview}</p>
+    <button class="boton" id="play">
+      <ion-icon class="info" name="play-circle-outline" size="large"></ion-icon> ${play}</button>
+    <button class="boton" id="info">
+      <ion-icon class="info" name="information-circle-outline" size="large"></ion-icon>${info}</button>
+  </div>           
+      `;
+}
 
 setTimeout(() => {
-  const contenedorGenero = document.querySelector(".category");
-const gen = (array) => {
-  const arrayReducido = array.reduce((acc, element) => {
-    return (
-      acc +
-      `
-        <p class="category">${element.name}</p>           
-        `
-    );
-  }, "");
-  return arrayReducido;
-};
-contenedorGenero.innerHTML = gen(genre);
-}, 1500);
-
-
-/* const contenedorCards = document.querySelector(".content");
-
-const cards = (array) => {
-  const arrayReducido = array.reduce((acc, element) => {
-    return (
-      acc +
-      `<div class="wrapper">
-      <div class="card">
-          <img src="${element.Poster}" class="img1" />
-        <h1 class="title">${element.Title}</h1>
-        <p class="text">${element.Plot}</p>
-        <p class="category">${element.Genre}</p>
-        <p class="views">${element.Year}</p>
-      </div>
-    </div>            
-        `
-    );
-  }, "");
-  return arrayReducido;
-};
-contenedorCards.innerHTML = cards(movies);
- */
-
-const login_email = localStorage.getItem("login_email");
-const login_password = localStorage.getItem("login_password");
-const valid_email = localStorage.getItem("register_email");
-const user_login = document.querySelector(".logo");
-
-window.onload = () => {
-  if ((login_email, login_password === null)) {
-    Toastify({
-      text: "Login first!!",
-      duration: 3000,
-    }).showToast();
-    setTimeout(() => {
-      window.location.href = "index.html";
-    }, 2000);
-    return false;
-  } else {
-    /* user_login.innerHTML =`
-            <p>${valid_email}</p>
-        ` */
-  }
-};
-/* const logout_button = document.querySelector(".logout-btn");
- logout_button.addEventListener('click',  () => {
-    localStorage.removeItem('login_email')
-    localStorage.removeItem('login_password')
-    window.location = 'index.html'
-}) */
+  const clickImagen = document.querySelectorAll(".clickImagen");
+  clickImagen.forEach((element) => {
+    element.addEventListener("click", (e) => {
+      busqueda(e.target.innerHTML);
+      window.scrollTo({
+        top:0, behavior:"smooth"
+      })
+    });
+  });
+}, 500);
