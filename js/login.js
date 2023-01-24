@@ -15,11 +15,11 @@ formLogin.onsubmit =  (e) => {
     localStorage.setItem("login_password", login_password.value);
     Toastify({
       text: "Login successfuly ✅",
-      duration: 3000,
+      duration: 2000,
     }).showToast();
     setTimeout(() => {
       window.location.href = "home.html";
-    }, 2000);
+    }, 1200);
   } else {
     Toastify({
       text: "The username or password is incorrect!!",
