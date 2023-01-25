@@ -5,6 +5,7 @@ const contenedorPrincipal = document.querySelector(".pelicula-principal");
 
 const cards = (array) => {
   const arrayReducido = array.reduce((acc, element) => {
+    let genero = genres(element.genre_ids);
     return (
       acc +
       `<div class="wrapper">
@@ -14,7 +15,8 @@ const cards = (array) => {
         <p class="text">${element.overview}</p>
         <p class="clickImagen">${element.id}</p>
         <p class="category"><ion-icon name="star"></ion-icon>IMDb ${element.vote_average}</p>
-        <p class="views">${element.release_date}</p>
+        <p class="views">${genero}</p>
+        <p class="views date" >${element.release_date}</p>
       </div>
     </div> `
     );
@@ -31,6 +33,17 @@ function selectLang() {
     lang = "en";
     textEng();
   }
+}
+
+function genres(array) {
+  let found = [];
+  for (var i = 0; i < genre.length; i++) {
+    for (var j = 0; j < 3; j++) {
+      if (genre[i].id == array[j]) found = [...found, genre[i].name];
+    }
+  }
+  let element = found.map((e) => e).join(", ");
+  return element;
 }
 
 function textEng() {
@@ -96,6 +109,7 @@ function busqueda(id) {
 }
 
 function imagenClick(element) {
+  let genero = genres(element.genres);
   const url = "https://image.tmdb.org/t/p/w780";
   let play = "Reproducir";
   let info = "Más información";
@@ -104,16 +118,35 @@ function imagenClick(element) {
     `background: linear-gradient(rgba(0, 0, 0, .50) 0%, rgba(0,0,0,.50) 100%), url(${
       url + element.backdropPath
     })`
-  );
-  contenedorPrincipal.style.backgroundSize = "cover";
-  contenedorPrincipal.style.backgroundPosition = "initial";
-  
-  if ((lang == 'en')) {
-    play = "Watch Now";
-    info = "More Details";
-  } 
+    );
+    contenedorPrincipal.style.backgroundSize = "cover";
+    contenedorPrincipal.style.backgroundPosition = "initial";
+    
+    if (lang == "en") {
+      play = "Watch Now";
+      info = "More Details";
+    }
   contenedorPrincipal.innerHTML = `<div class="contenedor">
     <h3 class="titulo">${element.title}</h3>
+    <div class="meta-wrapper">
+          <div class="badge-wrapper">
+            <div class="badge badge-fill">PG ${element.age}</div>
+            <div class="badge-outline"><ion-icon name="star" id="star"></ion-icon>IMDb ${element.tmdbRating}</div>
+          </div>
+          <div class="ganre-wrapper">
+            <a href="#">${genero}</a>
+          </div>
+          <div class="date-time">
+            <div>
+              <ion-icon name="calendar-outline" size="large"></ion-icon>
+              <span id="date">${element.year}</span>
+            </div>
+            <div>
+              <ion-icon name="time-outline" size="large"></ion-icon>
+              <span id="time">${element.runtime} min</span>
+            </div>
+          </div>
+        </div>
     <p class="descripcion">${element.overview}</p>
     <button class="boton" id="play">
       <ion-icon class="info" name="play-circle-outline" size="large"></ion-icon> ${play}</button>
@@ -129,8 +162,9 @@ setTimeout(() => {
     element.addEventListener("click", (e) => {
       busqueda(e.target.innerHTML);
       window.scrollTo({
-        top:0, behavior:"smooth"
-      })
+        top: 0,
+        behavior: "smooth",
+      });
     });
   });
 }, 500);

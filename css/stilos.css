@@ -60,7 +60,7 @@ body {
 	height: 120px;
 	padding: 15px 10px;
 	text-align: center;
-	font-size: 20px;
+	font-size: 15px;
 	color: #fff;
 	transform: rotate(90deg);
 	transform-origin: 0 100px;
@@ -72,7 +72,7 @@ body {
 	display: flex;
 	position: absolute;
 	left: 10px;
-	top: 90px;
+	top: 60px;
 	padding: 3px 10px;
 	font-size: 15px;
 	font-weight: 700;
@@ -87,7 +87,7 @@ body {
   .card .views {
 	position: absolute;
 	left: 10px;
-	top: 120px;
+	top: 90px;
 	padding: 3px 10px;
 	font-size: 15px;
 	font-weight: 700;
@@ -95,8 +95,11 @@ body {
 	background: #8b2463;
 	color: #fff;
 	border-radius: 5px;
-	transform: translate(-160px, 0);
+	transform: translate(-250px, 0);
 	transition: all 0.5s ease 0.15s;
+  }
+.date {
+	margin-top: 50px;
   }
   
   .card:hover .img1 {
