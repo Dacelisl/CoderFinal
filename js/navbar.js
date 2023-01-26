@@ -16,8 +16,9 @@ window.onload = () => {
     document.querySelector(".signIn").innerHTML = `
     <span>${user} - LOGOUT</span>
 `;
+getMovies();
   }
-};
+}
 const logout_button = document.querySelector(".signIn");
  logout_button.addEventListener('click',  () => {
     localStorage.removeItem('login_email')

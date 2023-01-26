@@ -1,5 +1,6 @@
 const key = "23313cb0700ea79bd480389020e9c60b";
 let lang = "es";
+let idMovie = "228150";
 const contenedorCards = document.querySelector(".content");
 const contenedorPrincipal = document.querySelector(".pelicula-principal");
 
@@ -29,12 +30,13 @@ function selectLang() {
   if (option2 == 1) {
     lang = "es";
     textEsp();
+    getMovies();
   } else {
     lang = "en";
     textEng();
+    getMovies();
   }
 }
-
 function genres(array) {
   let found = [];
   for (var i = 0; i < genre.length; i++) {
@@ -45,22 +47,13 @@ function genres(array) {
   let element = found.map((e) => e).join(", ");
   return element;
 }
-
 function textEng() {
   document.querySelector("#inicio").innerText = "Home";
   document.querySelector("#tendencia").innerText = "Trending";
   document.querySelector("#peliculas").innerText = "Movies";
   document.querySelector("#series").innerText = "Web Series";
   document.querySelector("#comunidad").innerText = "Community";
-  document.querySelector(".titulo").innerText = "Fury";
-  document.querySelector(".descripcion").innerText =
-    "In the last months of World War II, as the Allies make their final push in the European theatre, a battle-hardened U.S. Army sergeant named 'Wardaddy' commands a Sherman tank called 'Fury' and its five-man crew on a deadly mission behind enemy lines. Outnumbered and outgunned, Wardaddy and his men face overwhelming odds in their heroic attempts to strike at the heart of Nazi Germany.";
-  document.querySelector(
-    "#play"
-  ).innerHTML = `<ion-icon class="info" name="play-circle-outline" size="large"></ion-icon> Watch Now`;
-  document.querySelector(
-    "#info"
-  ).innerHTML = `<ion-icon class="info" name="information-circle-outline" size="large"></ion-icon> More Details`;
+  busqueda(idMovie);
 }
 function textEsp() {
   document.querySelector("#inicio").innerText = "Inicio";
@@ -68,35 +61,32 @@ function textEsp() {
   document.querySelector("#peliculas").innerText = "peliculas";
   document.querySelector("#series").innerText = "series";
   document.querySelector("#comunidad").innerText = "comunidad";
-  document.querySelector(".titulo").innerText = "Corazones de acero";
-  document.querySelector(".descripcion").innerText =
-    "Abril de 1945. Al mando del veterano sargento Wardaddy, una brigada de cinco soldados americanos a bordo de un tanque -el Fury- ha de luchar contra un ejército nazi al borde de la desesperación, pues los alemanes saben que su derrota estaba ya cantada por aquel entonces.";
-  document.querySelector(
-    "#play"
-  ).innerHTML = `<ion-icon class="info" name="play-circle-outline" size="large"></ion-icon> Reproducir`;
-  document.querySelector(
-    "#info"
-  ).innerHTML = `<ion-icon class="info" name="information-circle-outline" size="large"></ion-icon>  Más información`;
+  busqueda(idMovie);
 }
-
 /* llenar cuadricula */
-/* fetch(`https://api.themoviedb.org/3/trending/movie/week?api_key=${key}&language=${lang}`) */
-fetch(
-  `https://api.themoviedb.org/3/discover/movie?api_key=${key}&language=${lang}&primary_release_date.gte=2014-09-15&primary_release_date.lte=2014-10-22&include_adult=true&include_video=false&page=1`
-)
-  .then((response) => response.json())
-  .then((response) => {
-    cards(response.results);
-  })
-  .catch((err) => console.error(err));
-
+function getMovies() {
+  /* fetch(`https://api.themoviedb.org/3/trending/movie/week?api_key=${key}&language=${lang}`) */
+  fetch(
+    `https://api.themoviedb.org/3/discover/movie?api_key=${key}&language=${lang}&primary_release_date.gte=2014-09-15&primary_release_date.lte=2014-10-22&include_adult=true&include_video=false&page=1`
+  )
+    .then((response) => response.json())
+    .then((response) => {
+      cards(response.results);
+      setTimeout(() => {
+        selectId();
+      }, 500);
+    })
+    .catch((err) => console.error(err));
+}
 /* Seleccion Individual */
 function busqueda(id) {
   const options = {
     method: "GET",
     headers: {
-      "X-RapidAPI-Key": "725f7c89a8msh38cea6e80ba5430p1cc6f3jsn08bcad0371ed",
-      "X-RapidAPI-Host": "streaming-availability.p.rapidapi.com",
+      /* "X-RapidAPI-Key": "725f7c89a8msh38cea6e80ba5430p1cc6f3jsn08bcad0371ed",
+      "X-RapidAPI-Host": "streaming-availability.p.rapidapi.com", */
+      'X-RapidAPI-Key': 'cdda214c9dmshba50a9277c3a300p1601f0jsna4dc29203c54',
+	  	'X-RapidAPI-Host': 'streaming-availability.p.rapidapi.com'
     },
   };
   fetch(
@@ -107,7 +97,6 @@ function busqueda(id) {
     .then((response) => imagenClick(response))
     .catch((err) => console.error(err));
 }
-
 function imagenClick(element) {
   let genero = genres(element.genres);
   const url = "https://image.tmdb.org/t/p/w780";
@@ -118,14 +107,14 @@ function imagenClick(element) {
     `background: linear-gradient(rgba(0, 0, 0, .50) 0%, rgba(0,0,0,.50) 100%), url(${
       url + element.backdropPath
     })`
-    );
-    contenedorPrincipal.style.backgroundSize = "cover";
-    contenedorPrincipal.style.backgroundPosition = "initial";
-    
-    if (lang == "en") {
-      play = "Watch Now";
-      info = "More Details";
-    }
+  );
+  contenedorPrincipal.style.backgroundSize = "cover";
+  contenedorPrincipal.style.backgroundPosition = "initial";
+
+  if (lang == "en") {
+    play = "Watch Now";
+    info = "More Details";
+  }
   contenedorPrincipal.innerHTML = `<div class="contenedor">
     <h3 class="titulo">${element.title}</h3>
     <div class="meta-wrapper">
@@ -155,16 +144,16 @@ function imagenClick(element) {
   </div>           
       `;
 }
-
-setTimeout(() => {
+function selectId() {
   const clickImagen = document.querySelectorAll(".clickImagen");
   clickImagen.forEach((element) => {
     element.addEventListener("click", (e) => {
-      busqueda(e.target.innerHTML);
+      idMovie = e.target.innerHTML;
+      busqueda(idMovie);
       window.scrollTo({
         top: 0,
         behavior: "smooth",
       });
     });
   });
-}, 500);
+}
